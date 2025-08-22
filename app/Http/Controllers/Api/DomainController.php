@@ -174,7 +174,7 @@ class DomainController extends Controller
 
     private function verifySpf(string $domain, string $expected): bool
     {
-        $records = dns_get_record($domain, DNS_TXT);
+        $records = dns_get_record($domain . '.', DNS_TXT);
 
         foreach ($records as $record) {
             if (isset($record['txt']) && $record['txt'] === $expected) {
@@ -187,7 +187,7 @@ class DomainController extends Controller
 
     private function verifyDkim(array $dkim): bool
     {
-        $records = dns_get_record($dkim['name'], DNS_TXT);
+        $records = dns_get_record($dkim['name'] . '.', DNS_TXT);
 
         foreach ($records as $record) {
             if (isset($record['txt']) && stripos($record['txt'], $dkim['value']) !== false) {
