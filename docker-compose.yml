@@ -40,8 +40,8 @@ services:
     expose:
       - "8080"
     networks:
-      - default
       - postal
+      - coolify
     depends_on:
       postal-api-db:
         condition: service_healthy
@@ -62,8 +62,6 @@ services:
       MARIADB_PASSWORD: ${SERVICE_PASSWORD_POSTALAPIDB}
     volumes:
       - postal-api-db-data:/var/lib/mysql
-    networks:
-      - default
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -76,8 +74,9 @@ volumes:
   postal-api-db-data:
 
 networks:
-  default:
-    name: postal-api
   postal:
     external: true
     name: postal
+  coolify:
+    external: true
+    name: coolify
