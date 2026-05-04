@@ -6,7 +6,6 @@ services:
     image: postal-api:latest
     restart: unless-stopped
     environment:
-      SERVICE_FQDN_POSTAL-API_8080: ${SERVICE_FQDN_POSTAL-API_8080}
       APP_NAME: postal-api
       APP_ENV: production
       APP_DEBUG: "false"
