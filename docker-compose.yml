@@ -30,17 +30,18 @@ services:
       BROADCAST_CONNECTION: log
       FILESYSTEM_DISK: local
 
-      # Cross-stack: reach Postal's MariaDB via host loopback bind (127.0.0.1:33307)
-      POSTAL_DB_HOST: host.docker.internal
-      POSTAL_DB_PORT: "33307"
+      # Cross-stack: reach Postal's MariaDB via internal-only shared network
+      POSTAL_DB_HOST: mariadb
+      POSTAL_DB_PORT: "3306"
       POSTAL_DB_USERNAME: ${POSTAL_DB_USERNAME:-}
       POSTAL_DB_PASSWORD: ${POSTAL_DB_PASSWORD:-}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     volumes:
       - postal-api-storage:/app/storage/app
     expose:
       - "8080"
+    networks:
+      - default
+      - postal-db-share
     depends_on:
       postal-api-db:
         condition: service_healthy
@@ -71,3 +72,8 @@ services:
 volumes:
   postal-api-storage:
   postal-api-db-data:
+
+networks:
+  postal-db-share:
+    name: postal-db-share
+    external: true
