@@ -34,11 +34,10 @@ RUN composer dump-autoload --optimize --no-dev --no-scripts \
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-ENV SERVER_NAME=":8080" \
-    APP_ENV=production \
+ENV APP_ENV=production \
     APP_DEBUG=false
 
 EXPOSE 8080
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["frankenphp", "php-server", "--root", "public/"]
+CMD ["frankenphp", "php-server", "--listen", ":8080", "--root", "public/"]
