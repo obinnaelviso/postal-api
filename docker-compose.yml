@@ -6,12 +6,12 @@ services:
     image: postal-api:latest
     restart: unless-stopped
     environment:
-      SERVICE_FQDN_POSTAL_API_8080: ${SERVICE_FQDN_POSTAL_API_8080}
+      SERVICE_FQDN_POSTAL-API_8080: ${SERVICE_FQDN_POSTAL-API_8080}
       APP_NAME: postal-api
       APP_ENV: production
       APP_DEBUG: "false"
       APP_KEY: ${APP_KEY}
-      APP_URL: https://${SERVICE_FQDN_POSTAL_API_8080}
+      APP_URL: ${SERVICE_URL_POSTAL-API_8080}
 
       LOG_CHANNEL: stack
       LOG_STACK: single
@@ -42,7 +42,6 @@ services:
       - "8080"
     networks:
       - postal
-      - coolify
     depends_on:
       postal-api-db:
         condition: service_healthy
@@ -78,6 +77,3 @@ networks:
   postal:
     external: true
     name: postal
-  coolify:
-    external: true
-    name: coolify
